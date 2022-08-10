@@ -1,0 +1,20 @@
+#! /bin/bash
+
+# Program to output system information to a page (HTML5)
+
+CURRENT_TIME="$(date +"%x %r")"
+
+TIMESTAMP="Generated $CURRENT_TIME, by $USER"
+
+echo "<!DOCTYPE html>"
+echo "<html lang='en'>"
+echo  "   <head>"
+echo  "     <title>System Info from Bash</title>"
+echo  "   </head>"
+
+echo  "   <body>"
+echo  "     <h1>System Information Report for $HOSTNAME</h1>"
+echo " <p> Generated $TIMESTAMP </p>"
+echo  "   </body>"
+
+echo "</html>"

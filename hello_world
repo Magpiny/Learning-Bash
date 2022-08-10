@@ -1,0 +1,5 @@
+#! /bin/bash
+
+# My very first bash script 2022
+
+echo "Hello world! 67"

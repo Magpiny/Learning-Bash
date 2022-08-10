@@ -1,0 +1,77 @@
+#! /bin/bash
+
+#Another one with "here document '<<' CAT & _EOL_"
+
+title="System Info from Bash"
+CURRENT_TIME="$(date +"%x %r")"
+TIMESTAMP="Generated on $CURRENT_TIME by $USER"
+
+function report_uptime() {
+    echo "<pre> $(uptime -p) since $(uptime -s)</pre>"
+    return
+}
+
+function report_diskspace() {
+    echo "<pre> $(df -h)</pre>"
+    return
+}
+
+report_RAMUsage() {
+    echo "<pre> $(free -h)</pre>"
+    return
+}
+
+report_home_space() {
+    if [[ "$(id -u)" -eq 0 ]]; then
+        echo "  <h3>Home Space Utilization (All Users)</h3>"
+        echo "  <pre>$(du -sh /home/*)</pre>"
+    else
+        echo " <h3>Home Space Utilization ($USER)</h3>"
+        echo " <pre>$(du -sh $HOME)</pre>"
+        
+    fi
+    return
+}
+
+# HTML Output .......................................
+
+cat <<- _EOL_
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Bash Shell Scripting</title>
+</head>
+<body style="margin: 0 auto; padding: 18px; background-color:yellow; color:black; font-size:20px;">
+    <h1 style="text-align: center;">$title</h1>
+    <h2 style="text-align: center; color: blue;">$TIMESTAMP</h2>
+    <hr>
+
+    <table style="margin: 0 auto; padding: 20px; border: 1;">
+        <tr style="padding: 20px; font-size: 150%; margin-bottom: 10px;">
+            <th>User</th>
+            <th>Uptime</th>
+
+
+        </tr>
+
+        <tr style="padding: 10px; border: 1;">
+            <th>$USER</th>
+            <th style="color: darkgreen;">$(report_uptime)</th>
+
+
+        </tr>
+    </table>
+
+    <h3>Disk Space Usage</h3>
+    $(report_diskspace)
+
+    <h3>RAM Usage</h3>
+    $(report_RAMUsage)
+
+    <!--Hello, world-->
+    $(report_home_space)
+</body>
+</html>
+
+_EOL_
